@@ -1,0 +1,16 @@
+{
+  "name": "risk-sentinel-agent",
+  "version": "0.1.0",
+  "description": "Local AI risk sentinel agent for Arbitrum PoC",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "listen": "node src/listener.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "ethers": "^6.16.0",
+    "openai": "^6.15.0"
+  }
+}

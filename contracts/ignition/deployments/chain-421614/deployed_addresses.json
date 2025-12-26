@@ -1,0 +1,5 @@
+{
+  "TestnetLiquidityPoolModule#TestnetLiquidityPool": "0xDFbE74604FfcC212359838fBF0cBa24E670cbb5D",
+  "TestnetLendingPoolModule#TestnetLendingPool": "0x36594cabfFB77Ced55427a75DF42abf716922547",
+  "RiskFeedModule#RiskFeed": "0xA071671af5B53E56a2f4CdDFeb096E6B9d62DF73"
+}

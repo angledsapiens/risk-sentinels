@@ -1,0 +1,39 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-f23e7c909c9a14e58fc304aeb681a1725c09f400",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "userSourceNameMap": {
+    "contracts/RiskFeed.sol": "project/contracts/RiskFeed.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/RiskFeed.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.28;\r\n\r\ncontract RiskFeed {\r\n    enum RiskCategory {\r\n        UNKNOWN,\r\n        LIQUIDITY,\r\n        ORACLE,\r\n        GOVERNANCE,\r\n        VOLATILITY\r\n    }\r\n\r\n    struct RiskReport {\r\n        uint8 score;              // 0�100\r\n        RiskCategory category;\r\n        bytes32 explanationHash;  // keccak256(explanation)\r\n        uint256 timestamp;\r\n    }\r\n\r\n    address public owner;\r\n\r\n    mapping(address => RiskReport) public latestReport;\r\n\r\n    event RiskPublished(\r\n        address indexed protocol,\r\n        uint8 score,\r\n        RiskCategory category,\r\n        bytes32 explanationHash,\r\n        uint256 timestamp\r\n    );\r\n\r\n    modifier onlyOwner() {\r\n        require(msg.sender == owner, \"not authorized\");\r\n        _;\r\n    }\r\n\r\n    constructor() {\r\n        owner = msg.sender;\r\n    }\r\n\r\n    function publishRisk(\r\n        address protocol,\r\n        uint8 score,\r\n        RiskCategory category,\r\n        bytes32 explanationHash\r\n    ) external onlyOwner {\r\n        require(score <= 100, \"invalid score\");\r\n\r\n        latestReport[protocol] = RiskReport({\r\n            score: score,\r\n            category: category,\r\n            explanationHash: explanationHash,\r\n            timestamp: block.timestamp\r\n        });\r\n\r\n        emit RiskPublished(\r\n            protocol,\r\n            score,\r\n            category,\r\n            explanationHash,\r\n            block.timestamp\r\n        );\r\n    }\r\n}"
+      }
+    }
+  }
+}

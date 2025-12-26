@@ -1,0 +1,39 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-bd8ff9817f0aec75e228e71d541d5557c558fa43",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "userSourceNameMap": {
+    "contracts/TestnetLendingPool.sol": "project/contracts/TestnetLendingPool.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/TestnetLendingPool.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.28;\r\n\r\ncontract TestnetLendingPool {\r\n    uint256 public totalDeposits;\r\n    uint256 public totalBorrows;\r\n\r\n    event LendingStateUpdated(\r\n        uint256 deposits,\r\n        uint256 borrows,\r\n        uint256 timestamp\r\n    );\r\n\r\n    constructor(uint256 initialDeposits) {\r\n        totalDeposits = initialDeposits;\r\n        emit LendingStateUpdated(totalDeposits, totalBorrows, block.timestamp);\r\n    }\r\n\r\n    function deposit(uint256 amount) external {\r\n        totalDeposits += amount;\r\n        emit LendingStateUpdated(totalDeposits, totalBorrows, block.timestamp);\r\n    }\r\n\r\n    function borrow(uint256 amount) external {\r\n        require(totalBorrows + amount <= totalDeposits, \"insufficient liquidity\");\r\n        totalBorrows += amount;\r\n        emit LendingStateUpdated(totalDeposits, totalBorrows, block.timestamp);\r\n    }\r\n\r\n    function repay(uint256 amount) external {\r\n        require(amount <= totalBorrows, \"repay too much\");\r\n        totalBorrows -= amount;\r\n        emit LendingStateUpdated(totalDeposits, totalBorrows, block.timestamp);\r\n    }\r\n}"
+      }
+    }
+  }
+}

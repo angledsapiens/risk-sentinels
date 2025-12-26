@@ -1,0 +1,21 @@
+# Node dependencies
+node_modules/
+
+# Secrets
+.env
+.env.*
+
+# Local runtime state (artifacts)
+explanations/
+state/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+
+# Windows junk
+Thumbs.db

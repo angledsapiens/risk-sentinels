@@ -1,0 +1,39 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-beb027b017aea55d93d1fff8d113e0dc84679595",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "userSourceNameMap": {
+    "contracts/TestnetLiquidityPool.sol": "project/contracts/TestnetLiquidityPool.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/TestnetLiquidityPool.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.28;\r\n\r\ncontract TestnetLiquidityPool {\r\n    uint256 public totalLiquidity;\r\n\r\n    event LiquidityUpdated(\r\n        uint256 newLiquidity,\r\n        int256 delta,\r\n        uint256 timestamp\r\n    );\r\n\r\n    constructor(uint256 initialLiquidity) {\r\n        totalLiquidity = initialLiquidity;\r\n        emit LiquidityUpdated(initialLiquidity, int256(initialLiquidity), block.timestamp);\r\n    }\r\n\r\n    function deposit(uint256 amount) external {\r\n        totalLiquidity += amount;\r\n        emit LiquidityUpdated(totalLiquidity, int256(amount), block.timestamp);\r\n    }\r\n\r\n    function withdraw(uint256 amount) external {\r\n        require(amount <= totalLiquidity, \"insufficient liquidity\");\r\n        totalLiquidity -= amount;\r\n        emit LiquidityUpdated(totalLiquidity, -int256(amount), block.timestamp);\r\n    }\r\n\r\n    // TESTNET ONLY � simulate shocks\r\n    function forceShock(int256 delta) external {\r\n        if (delta < 0) {\r\n            uint256 abs = uint256(-delta);\r\n            require(abs <= totalLiquidity, \"shock too large\");\r\n            totalLiquidity -= abs;\r\n        } else {\r\n            totalLiquidity += uint256(delta);\r\n        }\r\n        emit LiquidityUpdated(totalLiquidity, delta, block.timestamp);\r\n    }\r\n}"
+      }
+    }
+  }
+}
